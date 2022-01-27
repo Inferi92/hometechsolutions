@@ -1,3 +1,5 @@
 hometechsolutions/__pycache__/
 htsolutions/__pycache__/
-htsolutions/migrations/__pycache__/
+htsolutions/migrations/
+migrations/
+__pycache__/
