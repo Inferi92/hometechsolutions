@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+{% block content %}
+
+{% if user.is_authenticated %}
+<h1>HomeTech Solutions API - Produtos</h1>
+
+<ul>
+  <li><strong>Total de Produtos:</strong> {{ products }}</li>
+  <li><strong>Produtos em Stock:</strong> {{ inStockProducts }}</li>
+  <li><strong>Produtos por Encomenda:</strong> {{ byOrderProducts }}</li>
+  <li><strong>Produtos sem Stock:</strong> {{ outOfStockProducts }}</li>
+</ul>
+{% else %}
+<h1>FAÇA LOGIN PARA VER OS PRODUTOS DISPONÍVEIS</h1>
+{% endif %}
+{% endblock %}

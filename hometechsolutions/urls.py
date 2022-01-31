@@ -27,4 +27,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('hometechsolutions/', include('htsolutions.urls')),
     path('', RedirectView.as_view(url='/hometechsolutions/')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]

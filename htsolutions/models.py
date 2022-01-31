@@ -22,7 +22,7 @@ class Category(models.Model):
 class Family(models.Model):
     name = models.CharField(max_length=55, null=False, blank=False)
     category = models.ForeignKey(
-        "Category", on_delete=models.CASCADE, null=False, blank=False
+        Category, on_delete=models.CASCADE, null=False, blank=False
     )
 
     def __str__(self):
@@ -33,7 +33,7 @@ class Family(models.Model):
 class SubFamily(models.Model):
     name = models.CharField(max_length=55, null=False, blank=False)
     family = models.ForeignKey(
-        "Family", on_delete=models.CASCADE, null=False, blank=False
+        Family, on_delete=models.CASCADE, null=False, blank=False
     )
 
     def __str__(self):
@@ -71,10 +71,10 @@ class Product(models.Model):
         max_digits=10, decimal_places=2, null=False, blank=False
     )
     brand = models.ForeignKey(
-        "Brand", on_delete=models.CASCADE, null=False, blank=False
+        Brand, on_delete=models.CASCADE, null=False, blank=False
     )
     subFamily = models.ForeignKey(
-        "SubFamily", on_delete=models.CASCADE, null=False, blank=False
+        SubFamily, on_delete=models.CASCADE, null=False, blank=False
     )
     image = models.ImageField(default="not_found.jpg")
     attribute = models.ManyToManyField(Attribute, null=False, blank=False)
@@ -101,13 +101,14 @@ class Product(models.Model):
         default=0,
         null=False,
         blank=False,
+        help_text="Quantidade do produto em stock",
     )
 
     # ESTADOS DE STOCK DO PRODUTO
     STOCK_STATUS = (
-        ("0", "Sem Stock"),
         ("1", "Em Stock"),
         ("2", "Por Encomenda"),
+        ("3", "Sem Stock"),
     )
 
     stockStatus = models.CharField(
@@ -120,9 +121,53 @@ class Product(models.Model):
         choices=STOCK_STATUS,
         blank=False,
         null=False,
-        default="0",
-        help_text="Stock do produto",
+        default="3",
+        help_text="Disponibilidade do produto",
+    )
+
+    # ESTADOS DE STOCK DO PRODUTO
+    CONDITION_STATUS = (
+        ("1", "Novo"),
+        ("2", "Usado"),
+        ("3", "Recondicionado"),
+    )
+
+    conditionStatus = models.CharField(
+        max_length=1,
+        validators=[
+            RegexValidator(r"[1-3]"),
+            MinLengthValidator(1),
+            MaxLengthValidator(1),
+        ],
+        choices=CONDITION_STATUS,
+        blank=False,
+        null=False,
+        default="1",
+        help_text="Condição do produto",
+    )
+
+    # ESTADOS DE STOCK DO PRODUTO
+    GRADE_STATUS = (
+        ("1", "A - Como novo"),
+        ("2", "B - Algumas marcas de uso"),
+        ("3", "C - Bastantes marcas de uso"),
+    )
+
+    gradeStatus = models.CharField(
+        max_length=1,
+        validators=[
+            RegexValidator(r"[1-3]"),
+            MinLengthValidator(1),
+            MaxLengthValidator(1),
+        ],
+        choices=GRADE_STATUS,
+        blank=True,
+        null=True,
+        help_text="Condição do produto",
     )
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['brand']

@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>{{ product.name }}</h1>
+
+<p><strong>Marca:</strong> {{ product.brand }}</p>
+<p><strong>Preço:</strong> {{ product.price }}{{ product.currency }}</p>
+<p><strong>EAN:</strong> {{ product.ean }}</p>
+<p><strong>Categoria:</strong> {{ product.subFamily.family.category }}</p>
+<p><strong>Família:</strong> {{ product.subFamily.family }}</p>
+<p><strong>Sub Família:</strong> {{ product.subFamily }}</p>
+<p><strong>Preço:</strong> {{ product.price }}{{ product.currency }}</p>
+<p><strong>Descrição:</strong> {{ product.description }}</p>
+<p><strong>Estado do Stock:</strong> {{ product.get_stockStatus_display }}</p>
+
+{% if product.stockStatus == '1' %}
+<p><strong>Data de Entrega:</strong> Em 48h úteis</p>
+{% elif product.stockStatus == '2' %}
+<p><strong>Data Prevista de Entrega:</strong> {{ product.expectedDeliveryDate }}</p>
+{% else %}
+<p><strong>Data Prevista de Entrada em Stock:</strong> {{ product.expectedAvailabilityDate }}</p>
+{% endif %}
+<p>
+  {% load static %}
+  <img src="{% static '/images/' %}{{ product.image }}" alt="{{ product.name }}" >
+</p>
+
+{% endblock %}

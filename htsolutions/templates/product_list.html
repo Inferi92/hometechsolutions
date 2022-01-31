@@ -1,0 +1,62 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Lista de Produtos</h1>
+{% if product_list %}
+
+<table class="tg">
+  <thead>
+    <tr>
+      <td class="tg-yjtc">EAN</td>
+      <td class="tg-yjtc">Marca</td>
+      <td class="tg-yjtc">Modelo</td>
+      <td class="tg-yjtc">Condição</td>
+      <td class="tg-yjtc">Grade</td>
+      <td class="tg-yjtc">Preço</td>
+      <td class="tg-yjtc">Stock</td>
+      <td class="tg-yjtc">Data de Entrega</td>
+      <td class="tg-yjtc">Data de Disponibilidade</td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in product_list %}
+    <tr>
+      <td class="tg-0lax">{{ product.ean }}</td>
+      <td class="tg-0lax"><a href="{% url 'products-brand-list' product.brand.pk %}">{{ product.brand }}</a></td>
+      <td class="tg-0lax"><a href="{% url 'product-detail' product.pk %}">{{ product.name }}</a></td>
+      <td class="tg-0lax">{{ product.get_conditionStatus_display }}</td>
+      <td class="tg-0lax">
+        {% if product.gradeStatus == null %}
+        -
+        {% else %}
+        {{ product.get_gradeStatus_display }}
+        {% endif %}
+      </td>
+      <td class="tg-0lax">{{ product.price }}{{ product.currency }}</td>
+      <td class="tg-0lax">
+        {{ product.get_stockStatus_display }}
+      </td>
+      <td class="tg-0lax">
+        {% if product.expectedDeliveryDate == null %}
+        Em 48h úteis
+        {% else %}
+        {{ product.expectedDeliveryDate }}
+        {% endif %}
+      </td>
+      <td class="tg-0lax">
+        {% if product.expectedAvailabilityDate == null %}
+        -
+        {% else %}
+        {{ product.expectedAvailabilityDate }}
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+{% else %}
+<p>Sem produtos na base de dados.</p>
+{% endif %}
+{% endblock %}
