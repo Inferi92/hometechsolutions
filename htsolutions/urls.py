@@ -20,6 +20,7 @@ urlpatterns = [
     path("api/products/brand/<int:pk>", views.ProductsListByBrand.as_view(), name="product_list_by_brand"),
     path("api/products/subfamily/<int:pk>", views.ProductsListBySubFamily.as_view(), name="product_list_by_subFamily"),
 
+    path("api/category/<int:pk>", views.CategoriesView.as_view(), name="category_detail"),
     path("api/categories", views.CategoriesView.as_view(), name="categories_list_api"),
     path("api/families", views.FamiliesView.as_view(), name="families_list_api"),
     path("api/subfamilies", views.SubFamiliesView.as_view(), name="subFamilies_list_api"),
