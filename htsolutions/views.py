@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
 import requests
@@ -10,7 +11,14 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from django.core import serializers as ser
-from .serializers import AttributeSerializer, BrandSerializer, CategorySerializer, FamilySerializer, ProductSerializer, SubFamilySerializer
+from .serializers import (
+    AttributeSerializer,
+    BrandSerializer,
+    CategorySerializer,
+    FamilySerializer,
+    ProductSerializer,
+    SubFamilySerializer,
+)
 
 # Create your views here.
 @login_required
@@ -73,106 +81,126 @@ def productListByBrand(request, pk):
 # All products API JSON
 class ProductsListView(APIView):
     def get(self, request, format=None):
-        snippets = Product.objects.all()
-        serializer = ProductSerializer(snippets, many=True)
+        product = Product.objects.all()
+        serializer = ProductSerializer(product, many=True)
         return JsonResponse(serializer.data, safe=False)
+
 
 class ProductDetailView(APIView):
     def get(self, request, pk, format=None):
-        snippet = Product.objects.get(pk=pk)
-        serializer = ProductSerializer(snippet, many=True)
+        product = Product.objects.get(pk=pk)
+        serializer = ProductSerializer(product, many=True)
         return JsonResponse(serializer.data, safe=False)
+
 
 # Products in stock API JSON
 class ProductsInStockView(APIView):
     def get(self, request, format=None):
-        snippets = Product.objects.filter(stockStatus=1)
-        serializer = ProductSerializer(snippets, many=True)
+        product = Product.objects.filter(stockStatus=1)
+        serializer = ProductSerializer(product, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 
 # Products by order API JSON
 class ProductsByOrderView(APIView):
     def get(self, request, format=None):
-        snippets = Product.objects.filter(stockStatus=2)
-        serializer = ProductSerializer(snippets, many=True)
+        product = Product.objects.filter(stockStatus=2)
+        serializer = ProductSerializer(product, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 
 # Products out of stock API JSON
 class ProductsOutOfStockView(APIView):
     def get(self, request, format=None):
-        snippets = Product.objects.filter(stockStatus=3)
-        serializer = ProductSerializer(snippets, many=True)
+        product = Product.objects.filter(stockStatus=3)
+        serializer = ProductSerializer(product, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-# Categories API JSON
-class CategoriesView(APIView):
+
+class CategoryDetailView(APIView):
+    
     def get_object(self, pk):
         try:
             return Category.objects.get(pk=pk)
         except Category.DoesNotExist:
             raise Http404
 
-    def get(self, request, format=None):
-        categoriy = Category.objects.all()
-        serializer = CategorySerializer(categoriy, many=True)
+    def get(self, request, pk, format=None):
+        category = Category.objects.filter(pk=pk)
+        serializer = CategorySerializer(category, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     def put(self, request, pk, format=None):
-        categoriy = self.get_object(pk)
-        serializer = CategorySerializer(categoriy, data=request.data)
+        category = self.get_object(pk)
+        serializer = CategorySerializer(category, data=request.data)
         if serializer.is_valid():
             serializer.save
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-    
+
     def delete(self, request, pk, format=None):
         category = self.get_object(pk)
         category.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# Categories API JSON
+class CategoriesView(APIView):
+    def get(self, request, format=None):
+        category = Category.objects.all()
+        serializer = CategorySerializer(category, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    def post(self, request, format=None):
+        category = CategorySerializer(data=request.data)
+        if category.is_valid():
+            category.save()
+            return Response(category.data, status=status.HTTP_201_CREATED)
+        return Response(category.errors, status=status.HTTP_400_BAD_REQUEST)
+
 # Families API JSON
 class FamiliesView(APIView):
     def get(self, request, format=None):
-        snippets = Family.objects.all()
-        serializer = FamilySerializer(snippets, many=True)
+        family = Family.objects.all()
+        serializer = FamilySerializer(family, many=True)
         return JsonResponse(serializer.data, safe=False)
+
 
 # SubFamilies API JSON
 class SubFamiliesView(APIView):
     def get(self, request, format=None):
-        snippets = SubFamily.objects.all()
-        serializer = SubFamilySerializer(snippets, many=True)
+        subFamily = SubFamily.objects.all()
+        serializer = SubFamilySerializer(subFamily, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-#Products by SubFamilie API JSON
+
+# Products by SubFamilie API JSON
 class ProductsListBySubFamily(APIView):
     def get(self, request, pk, format=None):
-        snippets = Product.objects.filter(subFamily=pk)
-        serializer = ProductSerializer(snippets, many=True)
+        product = Product.objects.filter(subFamily=pk)
+        serializer = ProductSerializer(product, many=True)
         return JsonResponse(serializer.data, safe=False)
+
 
 # Brand API JSON
 class BrandsView(APIView):
     def get(self, request, format=None):
-        snippets = Brand.objects.all()
-        serializer = BrandSerializer(snippets, many=True)
+        brand = Brand.objects.all()
+        serializer = BrandSerializer(brand, many=True)
         return JsonResponse(serializer.data, safe=False)
 
 
 # Products by brand API JSON
 class ProductsListByBrand(APIView):
     def get(self, request, pk, format=None):
-        snippets = Product.objects.filter(brand=pk)
-        serializer = ProductSerializer(snippets, many=True)
+        product = Product.objects.filter(brand=pk)
+        serializer = ProductSerializer(product, many=True)
         return JsonResponse(serializer.data, safe=False)
+
 
 # Attributes API JSON
 class AttributesView(APIView):
     def get(self, request, format=None):
-        snippets = Attribute.objects.all()
-        serializer = AttributeSerializer(snippets, many=True)
+        attribute = Attribute.objects.all()
+        serializer = AttributeSerializer(attribute, many=True)
         return JsonResponse(serializer.data, safe=False)

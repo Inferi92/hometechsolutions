@@ -12,15 +12,15 @@ urlpatterns = [
     path("products/brand/<int:pk>", views.productListByBrand, name="products-brand-list"),
 
     #URLS API ENDPOINTS
-    path("api/product/<int:pk>", views.ProductDetailView.as_view(), name="single_product"),
+    path("api/product/<int:pk>", views.ProductDetailView.as_view(), name="single_product_api"),
     path("api/products/", views.ProductsListView.as_view(), name="products_list_api"),
-    path("api/products/inStock", views.ProductsInStockView.as_view(), name="products_in_stock"),
-    path("api/products/byOrder", views.ProductsByOrderView.as_view(), name="products_by_order"),
-    path("api/products/outOfStock", views.ProductsOutOfStockView.as_view(), name="products_out_of_stock"),
-    path("api/products/brand/<int:pk>", views.ProductsListByBrand.as_view(), name="product_list_by_brand"),
-    path("api/products/subfamily/<int:pk>", views.ProductsListBySubFamily.as_view(), name="product_list_by_subFamily"),
+    path("api/products/inStock", views.ProductsInStockView.as_view(), name="products_in_stock_api"),
+    path("api/products/byOrder", views.ProductsByOrderView.as_view(), name="products_by_order_api"),
+    path("api/products/outOfStock", views.ProductsOutOfStockView.as_view(), name="products_out_of_stock_api"),
+    path("api/products/brand/<int:pk>", views.ProductsListByBrand.as_view(), name="product_list_by_brand_api"),
+    path("api/products/subfamily/<int:pk>", views.ProductsListBySubFamily.as_view(), name="product_list_by_subFamily_api"),
 
-    path("api/category/<int:pk>", views.CategoriesView.as_view(), name="category_detail"),
+    path("api/category/<int:pk>", views.CategoryDetailView.as_view(), name="category_detail_api"),
     path("api/categories", views.CategoriesView.as_view(), name="categories_list_api"),
     path("api/families", views.FamiliesView.as_view(), name="families_list_api"),
     path("api/subfamilies", views.SubFamiliesView.as_view(), name="subFamilies_list_api"),
