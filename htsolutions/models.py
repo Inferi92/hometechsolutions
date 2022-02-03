@@ -165,7 +165,7 @@ class Product(models.Model):
     expectedDeliveryDate = models.DateField(null=True, blank=True)
     attribute = models.ManyToManyField(Attribute, null=False, blank=False)
     description = models.TextField()
-    image = models.ImageField(default="not_found.jpg")
+    image = models.ImageField(null=True, blank=True)
 
     def __str__(self):
         return self.name

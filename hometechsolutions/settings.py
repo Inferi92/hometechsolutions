@@ -135,3 +135,9 @@ LOGIN_REDIRECT_URL = "/"
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = "/static/"
+
+# MEDIA URL
+MEDIA_URL = "/"
+
+# MEDIA ROOT
+MEDIA_ROOT = "htsolutions/static/images"
