@@ -10,6 +10,7 @@
       <td class="tg-yjtc">EAN</td>
       <td class="tg-yjtc">Marca</td>
       <td class="tg-yjtc">Modelo</td>
+      <td class="tg-yjtc">Cor</td>
       <td class="tg-yjtc">Condição</td>
       <td class="tg-yjtc">Grade</td>
       <td class="tg-yjtc">Preço</td>
@@ -24,6 +25,7 @@
       <td class="tg-0lax">{{ product.ean }}</td>
       <td class="tg-0lax"><a href="{% url 'products-brand-list' product.brand.pk %}">{{ product.brand }}</a></td>
       <td class="tg-0lax"><a href="{% url 'product-detail' product.pk %}">{{ product.name }}</a></td>
+      <td class="tg-0lax">{{ product.color }}</td>
       <td class="tg-0lax">{{ product.get_conditionStatus_display }}</td>
       <td class="tg-0lax">
         {% if product.gradeStatus == null %}
