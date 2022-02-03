@@ -1,6 +1,3 @@
-from calendar import TUESDAY
-
-from django.forms import ChoiceField
 from .models import Product, Category, Family, SubFamily, Brand, Attribute
 from rest_framework import serializers
 
