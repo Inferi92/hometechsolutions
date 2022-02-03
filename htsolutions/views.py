@@ -1,19 +1,13 @@
-import errno
-from http.client import responses
-from unicodedata import category
-from black import NothingChanged
+
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
-import requests
 from htsolutions.models import Category, Family, SubFamily, Product, Brand, Attribute
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from rest_framework import status
-from django.core import serializers
 from .serializers import (
     AttributeSerializer,
     BrandSerializer,
@@ -55,18 +49,9 @@ def index(request):
     """View function for home page of site."""
 
     # Generate count of all products
-    responseProducts = requests.get(
-        "http://127.0.0.1:8000/hometechsolutions/api/products/"
-    )
-    products = len(responseProducts.json())
+    products = Product.objects.count()
 
     # Count Out of Stock products (status = '3')
-    responseProducts = requests.get(
-        "http://127.0.0.1:8000/hometechsolutions/api/products/"
-    )
-    if responseProducts.status_code != 200:
-        return "error"
-    products = len(responseProducts.json())
     outOfStockProducts = Product.objects.filter(stockStatus="3").count()
 
     # Count In Stock products (status = '1')
