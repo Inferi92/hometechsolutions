@@ -1,4 +1,7 @@
-from .models import Product, Category, Family, SubFamily, Brand, Attribute
+from pkgutil import read_code
+
+from black import TRANSFORMED_MAGICS
+from .models import Color, Product, Category, Family, SubFamily, Brand, Attribute
 from rest_framework import serializers
 
 
@@ -47,11 +50,16 @@ class AttributeSerializer(serializers.ModelSerializer):
         model = Attribute
         fields = "__all__"
 
+class ColorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Color
+        fields = "__all__"
 
 class ProductSerializer(serializers.ModelSerializer):
     subFamily = SubFamilySerializer(many=False, read_only=True)
     attribute = AttributeSerializer(many=True, read_only=True)
     brand = BrandSerializer(many=False, read_only=True)
+    color = ColorSerializer(many=False, read_only=True)
 
     class Meta:
         model = Product

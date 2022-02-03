@@ -39,6 +39,8 @@ urlpatterns = [
    path("api/brand", views.BrandsAPI.as_view(), name="brands_list_api"),
    path("api/attribute/<int:pk>", views.AttributeDetailAPI.as_view(), name="attribute_detail_api"),
    path("api/attribute", views.AttributesAPI.as_view(), name="attributes_list_api"),
+   path("api/color/<int:pk>", views.ColorDetailAPI.as_view(), name="color_detail_api"),
+   path("api/color", views.ColorsAPI.as_view(), name="Colors_list_api"),
 
    path("api/docs", schema_view.with_ui('swagger', cache_timeout=0)),
 ]

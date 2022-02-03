@@ -1,7 +1,7 @@
 
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
-from htsolutions.models import Category, Family, SubFamily, Product, Brand, Attribute
+from htsolutions.models import Category, Color, Family, SubFamily, Product, Brand, Attribute
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -12,6 +12,7 @@ from .serializers import (
     AttributeSerializer,
     BrandSerializer,
     CategorySerializer,
+    ColorSerializer,
     FamilySerializer,
     FamilySerializerPUTandPOST,
     ProductSerializer,
@@ -666,3 +667,86 @@ class AttributesAPI(APIView):
             attribute.save()
             return Response(attribute.data, status=status.HTTP_201_CREATED)
         return Response(attribute.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Color by ID
+class ColorDetailAPI(APIView):
+    def get_object(self, pk):
+        try:
+            return Color.objects.get(pk=pk)
+        except Color.DoesNotExist:
+            raise Http404
+
+    @swagger_auto_schema(
+        operation_summary="Get color by id",
+        operation_description="Get a specific color",
+        responses={
+            status.HTTP_200_OK: response_200(ColorSerializer),
+            status.HTTP_404_NOT_FOUND: response_404(ColorSerializer),
+        },
+    )
+    def get(self, request, pk, format=None):
+        color = self.get_object(pk)
+        serializer = ColorSerializer(color)
+        return JsonResponse(serializer.data, safe=False)
+
+    @swagger_auto_schema(
+        operation_summary="Update color",
+        operation_description="Edit a specific color",
+        request_body=ColorSerializer,
+        responses={
+            status.HTTP_200_OK: response_200(ColorSerializer),
+            status.HTTP_400_BAD_REQUEST: response_400(ColorSerializer),
+            status.HTTP_404_NOT_FOUND: response_404(ColorSerializer),
+        },
+    )
+    def put(self, request, pk, format=None):
+        color = self.get_object(pk)
+        serializer = ColorSerializer(color, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @swagger_auto_schema(
+        operation_summary="Delete color by id",
+        operation_description="Delete a specific color",
+        responses={
+            status.HTTP_204_NO_CONTENT: response_204(ColorSerializer),
+            status.HTTP_404_NOT_FOUND: response_404(ColorSerializer),
+        },
+    )
+    def delete(self, request, pk, format=None):
+        color = self.get_object(pk)
+        color.delete()
+        return Response(
+            status=status.HTTP_204_NO_CONTENT,
+        )
+
+
+# Colors API JSON
+class ColorsAPI(APIView):
+    @swagger_auto_schema(
+        operation_summary="Get colors",
+        operation_description="Get all colors",
+        responses={status.HTTP_200_OK: response_200(ColorSerializer(many=True))},
+    )
+    def get(self, request, format=None):
+        color = Color.objects.all()
+        serializer = ColorSerializer(color, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    @swagger_auto_schema(
+        operation_summary="Create colors",
+        operation_description="Create a new colors",
+        request_body=ColorSerializer,
+        responses={
+            status.HTTP_201_CREATED: response_201(ColorSerializer),
+            status.HTTP_400_BAD_REQUEST: response_400(ColorSerializer),
+        },
+    )
+    def post(self, request, format=None):
+        color = ColorSerializer(data=request.data)
+        if color.is_valid():
+            color.save()
+            return Response(color.data, status=status.HTTP_201_CREATED)
+        return Response(color.errors, status=status.HTTP_400_BAD_REQUEST)
