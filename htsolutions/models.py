@@ -119,7 +119,7 @@ class Product(models.Model):
         blank=False,
         null=False,
         default="3",
-        help_text="Disponibilidade do produto",
+        help_text="Disponibilidade do produto (1 - Em Stock, 2 - Por Encomenda; 3 - Sem Stock)",
     )
 
     # ESTADOS DE STOCK DO PRODUTO
@@ -140,14 +140,14 @@ class Product(models.Model):
         blank=False,
         null=False,
         default="1",
-        help_text="Condição do produto",
+        help_text="Condição do produto (1 - Novo; 2 - Usado; 3 - Recondicionado)",
     )
 
     # ESTADOS DE STOCK DO PRODUTO
     GRADE_STATUS = (
-        ("1", "A - Como novo"),
-        ("2", "B - Algumas marcas de uso"),
-        ("3", "C - Bastantes marcas de uso"),
+        ("2", "A - Como novo"),
+        ("3", "B - Algumas marcas de uso"),
+        ("4", "C - Bastantes marcas de uso"),
     )
 
     gradeStatus = models.CharField(
@@ -157,11 +157,11 @@ class Product(models.Model):
             MinLengthValidator(1),
             MaxLengthValidator(1),
         ],
-        default="",
+        default=1,
         choices=GRADE_STATUS,
         blank=True,
         null=True,
-        help_text="Condição do produto",
+        help_text="Grade do produto (2 - Grade A; 3 - Grade B; 4 - Grade C)",
     )
 
     def __str__(self):
