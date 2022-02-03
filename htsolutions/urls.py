@@ -38,7 +38,7 @@ urlpatterns = [
    path("api/subfamily", views.SubFamiliesAPI.as_view(), name="subFamilies_list_api"),
    path("api/brand/<int:pk>", views.BrandDetailAPI.as_view(), name="brand_detail_api"),
    path("api/brand", views.BrandsAPI.as_view(), name="brands_list_api"),
-   path("api/attribute/<int:pk>", views.AttributesAPI.as_view(), name="attribute_detail_api"),
+   path("api/attribute/<int:pk>", views.AttributeDetailAPI.as_view(), name="attribute_detail_api"),
    path("api/attribute", views.AttributesAPI.as_view(), name="attributes_list_api"),
 
    path("api/docs", schema_view.with_ui('swagger', cache_timeout=0)),
