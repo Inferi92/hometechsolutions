@@ -1,7 +1,5 @@
-from ast import Sub
 from django.db import models
 from datetime import date
-from django.core.exceptions import ValidationError
 from django.core.validators import (
     MinLengthValidator,
     MaxLengthValidator,
@@ -98,7 +96,6 @@ class Product(models.Model):
             MinValueValidator(0),
             MaxValueValidator(999),
         ],
-        default=0,
         null=False,
         blank=False,
         help_text="Quantidade do produto em stock",
@@ -160,6 +157,7 @@ class Product(models.Model):
             MinLengthValidator(1),
             MaxLengthValidator(1),
         ],
+        default="",
         choices=GRADE_STATUS,
         blank=True,
         null=True,
