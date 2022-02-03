@@ -7,7 +7,7 @@ from drf_yasg import openapi
 schema_view = get_schema_view(
    openapi.Info(
       title="HomeTech Solutions API",
-      default_version='v1',
+      default_version='v2',
       description="Documentação da API da Loja HomeTech Solutions",
    ),
    public=True,
