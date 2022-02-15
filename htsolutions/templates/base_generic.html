@@ -17,14 +17,14 @@
         <div class="row">
             <div class="col-sm-2">
                 {% block sidebar %}
+                {% if user.is_authenticated %}
+                User: {{ user.get_username }}
                 <ul class="sidebar-nav">
-                    {% if user.is_authenticated %}
-                    <li>User: {{ user.get_username }}</li>
                     <li><a href="{% url 'index' %}">Início</a></li>
                     <li><a href="{% url 'products' %}">Todos os Produtos</a></li>
                     <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
-                    {% endif %}
                 </ul>
+                {% endif %}
                 {% endblock %}
             </div>
             <div class="col-sm-10 ">
