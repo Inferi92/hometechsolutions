@@ -15,9 +15,4 @@ htsolutions/__pycache__/views.cpython-38.pyc
 htsolutions/migrations/__pycache__/__init__.cpython-38.pyc
 htsolutions/migrations/__pycache__/0001_initial.cpython-38.pyc
 *.pyc
-hometechsolutions/__pycache__/settings.cpython-38.pyc
-hometechsolutions/__pycache__/urls.cpython-38.pyc
-htsolutions/__pycache__/admin.cpython-38.pyc
-htsolutions/__pycache__/models.cpython-38.pyc
-htsolutions/__pycache__/urls.cpython-38.pyc
-htsolutions/__pycache__/views.cpython-38.pyc
+*.pyc

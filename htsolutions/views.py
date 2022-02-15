@@ -44,7 +44,9 @@ def response_400(serializer):
     return openapi.Response("Bad Request")
 
 
-# Create your views here.
+# Create views here
+
+# FRONTEND VIEWS
 @login_required
 def index(request):
     """View function for home page of site."""
